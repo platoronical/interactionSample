@@ -1,0 +1,261 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>無題ドキュメント</title>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	<script>
+		$(document).ready(function(){
+
+			var tooltipHtml = `
+				<div>
+					<div style="margin: 10px;">
+						クリックで表示非表示
+					</div>
+					</div>
+				</div>`;
+						
+
+		var tooltip = function(){
+			$('.tooltip').unbind('mouseover').unbind('mouseout');
+			$('.tooltip').mouseover(function(){
+				data_content = $(this).attr('data-content');
+				size = $(this).attr('size') || 200;
+				
+				$(this).append('<div class="tooltip-content right">'+data_content+'</div>');
+				$('.tooltip-content').css('width',size).fadeIn(100);
+			}).
+			mouseout(function(){
+				$(this).find('.tooltip-content').remove();
+			});
+			
+		};
+		$(document).ready(function(){
+			tooltip();
+		});
+
+		$(function(){
+			
+			$('#clicktt').on({
+				"click": function(){
+					$(this).tooltip({items:"#clicktt",content:"クリックで表示マウスアウトで非表示"});
+					$(this).tooltip("open");
+				},
+				"mouseout":function(){
+					$(this).tooltip("disable");
+				}
+			});
+		});
+
+		/*$(function(){
+			if ($(this).hasClass("on") == false) {
+				$('#clicktt_tg').on({
+					"click": function(){
+						$(this).tooltip({items:"#clicktt_tg",content:"クリックで表示非表示"});
+						$(this).tooltip("open");
+						
+					},
+					"mouseout": function(e){
+						e.stopImmediatePropagation();
+					}
+				});
+				$(this).addClass("on");
+       var tooltipObj = $(this).tooltip({
+          items: ".showTooltip.on",
+          content: tooltipHtml
+       });
+
+				$(this).trigger('mouseenter');
+			} else{
+				$(this).tooltip('close');
+      			 $(this).removeClass("on");
+			}
+		});*/
+
+		$(document).on("click", "#clicktt_tg", function() {
+    if ($(this).hasClass("on") == false) {
+
+       $("#clicktt_tg").on('mouseout', function(e) {
+         e.stopImmediatePropagation();
+       });
+
+       $(this).addClass("on");
+       var tooltipObj = $(this).tooltip({
+          items: "#clicktt_tg.on",
+          content: tooltipHtml
+       });
+
+       $(this).trigger('mouseenter');
+
+       $('.tooltipClose').on('click', function() {
+         // 「×」ボタンクリックした時にツールチップを閉じる
+         $(tooltipObj).tooltip('close');
+         $(tooltipObj).removeClass("on");
+      });
+     } else {
+       // ツールチップが開かれた状態で、リンクを押された時は、ツールチップを閉じる
+       $(this).tooltip('close');
+       $(this).removeClass("on");
+     }
+   });
+
+
+	});
+	</script>
+<style type="text/css">
+
+	body{
+		margin:10px;
+	}
+	div{
+		margin: 15px;
+	}
+
+	.node{
+		float: left;
+		width:200px;
+		height: 35px;
+		background-color: orange;
+		border-radius: 4px;
+		text-align: left;
+		padding-top: 10px;
+		padding-left: 10px;
+	}
+	.node:hover{
+		background-color: aqua;
+	}
+	
+	.thumbicon{
+		position: relative;
+
+		display: inline-block;
+		width: 30px;
+		height: 30px;
+		background-color: #fff;
+		border-radius: 2px;
+		
+	}
+
+	.circlenode{
+		float: left;
+		width: 120px;
+		height: 120px;
+		border-radius: 50%;
+		box-shadow: #aaa;
+		background-color: teal;
+		border: solid 5px ;
+		border-color: #fff;
+		box-shadow: 0 5px 3px 0 rgba(50,50,50,0.5) ;
+		display: flex;
+		align-items: center;
+  		justify-content: center;
+		  color: white;
+	}
+
+	.circlenode:hover{
+		border-color: palegreen;
+	}
+
+	.circlenode_b{
+		float: left;
+		width: 120px;
+		height: 120px;
+		border-radius: 50%;
+		box-shadow: #aaa;
+		background-color: teal;
+		border: solid 5px ;
+		border-color: #fff;
+		box-shadow: 0 5px 3px 0 rgba(50,50,50,0.5) ;
+		display: flex;
+		align-items: center;
+  		justify-content: center;
+		  color: white;
+
+	}
+
+
+	/*.ui-tooltip{
+		background-color: aliceblue;
+		border: solid gray;
+		border-radius: 4px;
+		width: 150px;
+		height: 20px;
+	}*/
+	
+	.tooltip {
+    position: relative;
+    cursor: pointer;
+	}
+	.tooltip .tooltip-content 
+	{   
+		display: none;
+		position: absolute;
+		z-index: 1000;
+		width: 180px;
+		text-shadow: none;
+		padding: 10px;
+		
+		text-align: left;
+		
+		background-color: rgba(50,50,50,0.8);
+		color: #fff;
+		
+		font-size: 80%;
+		
+		border-radius: 4px;
+		-moz-border-radius: 4px;
+		-webkit-border-radius: 4px;
+		
+		top: -10px;
+		left: -120px;
+
+	}
+	.tooltip .tooltip-content.right
+	{
+		width: 270px;
+		left: 20px;
+		top: 15px;
+	}
+
+	
+	
+</style>
+</head>
+	<div class="hoversample">
+		<div style="float: left;padding-top: 40px;font-weight: bold;">hoverSample</div>
+		<div class="node">
+			<span class="thumbicon">ico</span>
+			<a class="tooltip" href="#" size="200" data-content="ツールチップで表示されます">aaa</a>
+		</div>
+
+		<div class="circlenode_b">
+			<span class="tooltip" href="#" size="200" data-content="ツールチップで表示されます" >sample</span>
+		</div>
+
+		<div class="circlenode">
+			<span class="tooltip" href="#" size="200" data-content="ツールチップで表示されます" >sample</span>
+		</div>
+
+		<div class="circlenode_b tooltip" href="#" size="200" data-content="サークルに直接ツールチップ"></div>
+	</div>
+	<div style="clear: both;"></div>
+
+	<div class="clicksample">
+		<div style="float: left;padding-top: 40px;font-weight: bold;">clickSample</div>
+		<div class="node">
+			<span class="thumbicon">ico</span>
+			<span id="clicktt" href="#" size="200">aaa</span>
+		</div>
+		<div class="node">
+			<span class="thumbicon">ico</span>
+			<span id="clicktt_tg" href="#" size="200">aaa</span>
+		</div>
+		
+	</div>
+
+
+<body>
+</body>
+</html>
